@@ -23,7 +23,7 @@
 进入craw文件夹：
 
 ```
-cd craw/
+cd craw_NCP/
 ```
 
 运行程序：
