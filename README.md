@@ -34,7 +34,11 @@ python main_ncp.py
 
 
 
+### 目前使用的爬虫源：
 
+* [可用的爬取源（国外）](https://github.com/CSSEGISandData/COVID-19)
+* [可用的爬取源（国内）](https://github.com/BlankerL/DXY-COVID-19-Data)
+* [写代码参考教程](https://blog.csdn.net/Eastmount/article/details/104995419)
 
 
 
@@ -64,10 +68,12 @@ https://www.zhihu.com/question/286165126
 
 ### Python 爬取参考
 
-* [从网页找到URL，并且爬取到excel的教程（国外）](https://news.qq.com/zt2020/page/feiyan.htm#/global)
+* [从网页找到URL，并且爬取到excel的教程（国外）](https://blog.csdn.net/sxt1001/article/details/105102919?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-3.nonecase)
 * [从网页找到URL，并且爬取到excel的教程（国内）](https://blog.csdn.net/sxt1001/article/details/105230277)
 * [爬虫，热力图，自动发邮件](https://juejin.im/post/5e4774a4f265da572b7667e3)
 * https://my.oschina.net/u/4339087/blog/3306137
+* [疫情爬虫教程](https://zhuanlan.zhihu.com/p/118632394)
+* 
 
 
 

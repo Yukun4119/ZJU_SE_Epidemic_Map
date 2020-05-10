@@ -44,6 +44,7 @@ def craw_info(browser, url):
     content = browser.page_source
     soup = BeautifulSoup(content, 'html.parser')
 
+    print('*'*40, soup)
 
     # 获取中国城市疫情人数
     soup_city_class = soup.find('div', class_='areaBox___Sl7gp themeA___1BO7o numFormat___nZ7U7 flexLayout___1pYge').\

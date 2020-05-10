@@ -13,11 +13,11 @@ sys.path.append(r'/Users/syk/Desktop/craw_project-master')
 import warnings
 warnings.filterwarnings('ignore')
 
-from craw_NCP.plot_data import read_data, plot_map
-from craw_NCP.send_email import send_email
+from plot_data import read_data, plot_map
+from send_email import send_email
 from datetime import datetime, timedelta
-from craw_NCP.craw_NCP_info import init_selenium, craw_info
-from craw_NCP.preprocess_data import process_data, save_to_mysql, compare_data, rename_df
+from craw_NCP_info import init_selenium, craw_info
+from preprocess_data import process_data, save_to_mysql, compare_data, rename_df
 
 # 显示所有列
 pd.set_option('display.max_columns', None)
