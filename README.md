@@ -2,13 +2,19 @@
 
 
 
+**Warning：**
+
+craw_NCP文件夹大概率用不来，可能需要删除
+
+
+
 
 
 
 
 ### 爬虫设计+数据集：
 
-* 主要参考craw/文件里面的内容，注意chromedriver的位置
+* 主要参考craw_NCP/文件里面的内容，注意chromedriver的位置
 
 * 目前遇到的问题：网页数据的抓取有问题，可能需要动态抓取
 
@@ -34,11 +40,15 @@ python main_ncp.py
 
 
 
+
+
+
+
 ### 目前使用的爬虫源：
 
 * [可用的爬取源（国外）](https://github.com/CSSEGISandData/COVID-19)
 * [可用的爬取源（国内）](https://github.com/BlankerL/DXY-COVID-19-Data)
-* [写代码参考教程](https://blog.csdn.net/Eastmount/article/details/104995419)
+* [写代码参考教程](https://blog.csdn.net/Eastmount/article/details/104995419)，代码在Wuhan-data-analysis-master中，写的很详细
 
 
 
