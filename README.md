@@ -133,3 +133,25 @@ mongoexport -d 2019-nCoV -c DXYArea -o ~/Desktop/test.json
 
 代码在craw/中
 
+
+
+环境配置：
+
+```
+pip install -r requirements.txt
+```
+
+
+
+运行：
+
+```
+python craw/craw.py
+```
+
+
+
+测试结果
+
+![result](img/result.png)
+
