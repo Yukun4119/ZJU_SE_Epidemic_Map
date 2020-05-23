@@ -131,33 +131,35 @@ mongoexport -d 2019-nCoV -c DXYArea -o ~/Desktop/test.json
 
 下面进入正题：
 
-代码在craw/中
+我的部分是写爬虫代码，从“某个网站”爬取疫情数据，并且把数据放在本地的mongo数据库中。
 
+代码中设定每10s更新一次数据。数据库中的数据可以导出为json和csv。代码在craw/中
 
-
-环境配置：
+* 环境配置：
 
 ```
 pip install -r requirements.txt
 ```
 
-
-
-运行：
+* 运行：
 
 ```
 python craw/craw.py
 ```
 
-
-
-测试结果
+* 测试结果
 
 ![result](img/result.png)
 
+* 查看mongo数据库：
 
+  其中我创建的COVID-19_ZJU_SE_PROJECT数据库
 
-数据导出：
+  ![mongo1](img/mongo1.png)
+
+  ![mongo2](img/mongo2.png)
+
+* 数据导出：
 
 ```
 mongoexport -d COVID-19_ZJU_SE_PROJECT -c DXYArea -o ~/Desktop/test.json
