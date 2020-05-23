@@ -155,3 +155,14 @@ python craw/craw.py
 
 ![result](img/result.png)
 
+
+
+数据导出：
+
+```
+mongoexport -d COVID-19_ZJU_SE_PROJECT -c DXYArea -o ~/Desktop/test.json
+
+mongoexport -d COVID-19_ZJU_SE_PROJECT -c DXYArea -o ~/Desktop/test.csv
+```
+
+![export](img/export.png)
