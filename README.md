@@ -92,3 +92,21 @@ https://www.cnblogs.com/wangyayun/p/6617351.html
 
 youtube教程
 https://www.youtube.com/watch?v=F5mRW0jo-U4
+
+
+
+
+
+
+## Mongo 的使用
+参考：https://www.jianshu.com/p/22d0ae3c3575
+
+1. 查看数据：
+```
+mongo
+```
+
+2. 导出数据
+```
+mongoexport -d 2019-nCoV -c DXYArea -o ~/Desktop/test.json
+```
