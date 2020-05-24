@@ -5,6 +5,7 @@ import random
 import logging
 import requests
 
+# 倒入其他的python文件
 from bs4 import BeautifulSoup
 from db import DB
 from userAgent import user_agent_list
@@ -16,7 +17,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 
-class Crawler:
+class Crawler(object):
     def __init__(self):
         self.session = requests.session()
         self.db = DB()
@@ -25,10 +26,12 @@ class Crawler:
     def run(self):
         while True:
             self.crawler()
-            time.sleep(10)  # every 10s  
+            time.sleep(120)  # 每120s爬取一次  
 
     def crawler(self):
         while True:
+            # 下面这个agent还不是很理解，大概是和会话有关
+            # https://www.itranslater.com/qa/details/2131691707614888960
             self.session.headers.update(
                 {
                     'user-agent': random.choice(user_agent_list)

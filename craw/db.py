@@ -1,7 +1,8 @@
 # 这里可能会报错，其实是是误报
 from pymongo import MongoClient
 
-# 这里是本地的mongo数据库
+# 这里是我本地的mongo数据库
+# 在这之前需要先下载安装好mongo
 uri = 'mongodb://localhost:27017/'
 client = MongoClient(uri)
 db = client['COVID-19_ZJU_SE_PROJECT']  
@@ -10,7 +11,7 @@ class DB:
     def __init__(self):
         self.db = db
 
-        # 涉及插入和查找
+        # 只是涉及插入和查找
     def insert(self, collection, data):
         self.db[collection].insert(data)
 
