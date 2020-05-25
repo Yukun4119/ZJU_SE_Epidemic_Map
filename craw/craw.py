@@ -4,33 +4,33 @@ import time
 import random
 import logging
 import requests
-
-# 倒入其他的python文件
 from bs4 import BeautifulSoup
-from db import DB
-from userAgent import user_agent_list
-from nameMap import country_type_map, city_name_map, country_name_map, continent_name_map
 
+# 导入其他的python文件
+from mongo import mongo_db
+from user_agent import user_agent_list
+from name_map import country_type_map, city_name_map, country_name_map, continent_name_map
 
-
+#设置好日志格式
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-
+#爬虫代码主体
 class Crawler(object):
     def __init__(self):
         self.session = requests.session()
-        self.db = DB()
+        self.db = mongo_db()
         self.crawl_timestamp = int()
-
+    
     def run(self):
         while True:
             self.crawler()
-            time.sleep(120)  # 每120s爬取一次  
-
+            time.sleep(2)  # 目前设定为每2s爬取一次  
+    #运行主体
     def crawler(self):
         while True:
             # 下面这个agent还不是很理解，大概是和会话有关
+            # 从user_agent.py文件中随机选择代理
             # https://www.itranslater.com/qa/details/2131691707614888960
             self.session.headers.update(
                 {
@@ -39,9 +39,11 @@ class Crawler(object):
             )
             self.crawl_timestamp = int(time.time() * 1000)
             try:
-                r = self.session.get(url='https://ncov.dxy.cn/ncovh5/view/pneumonia')
+                r = self.session.get(url='https://ncov.dxy.cn/ncovh5/view/pneumonia') # 登陆丁香园的网站
             except requests.exceptions.ChunkedEncodingError:
                 continue
+
+            # 用正则表达式去查找
             soup = BeautifulSoup(r.content, 'lxml')
 
             overall_information = re.search(r'(\{"id".*\})\}', str(soup.find('script', attrs={'id': 'getStatisticsService'})))
@@ -76,10 +78,9 @@ class Crawler(object):
                     not rumors:
                 time.sleep(3)
                 continue
-
             break
 
-        logger.info('Successfully crawled.')
+        logger.info('成功爬取数据')
 
     def overall_parser(self, overall_information):
         overall_information = json.loads(overall_information.group(1))
@@ -90,10 +91,9 @@ class Crawler(object):
         overall_information.pop('deleted')
         overall_information['countRemark'] = overall_information['countRemark'].replace(' 疑似', '，疑似').replace(' 治愈', '，治愈').replace(' 死亡', '，死亡').replace(' ', '')
 
-        if not self.db.find_one(collection='DXYOverall', data=overall_information):
+        if not self.db.find_one(collection='Overall', data=overall_information):
             overall_information['updateTime'] = self.crawl_timestamp
-
-            self.db.insert(collection='DXYOverall', data=overall_information)
+            self.db.insert(collection='Overall', data=overall_information)
 
     def province_parser(self, province_information):
         provinces = json.loads(province_information.group(0))
@@ -103,14 +103,14 @@ class Crawler(object):
             province.pop('sort')
             province['comment'] = province['comment'].replace(' ', '')
 
-            if self.db.find_one(collection='DXYProvince', data=province):
+            if self.db.find_one(collection='Province', data=province):
                 continue
 
             province['provinceEnglishName'] = city_name_map[province['provinceShortName']]['engName']
             province['crawlTime'] = self.crawl_timestamp
             province['country'] = country_type_map.get(province['countryType'])
 
-            self.db.insert(collection='DXYProvince', data=province)
+            self.db.insert(collection='Province', data=province)
 
     def area_parser(self, area_information):
         area_information = json.loads(area_information.group(0))
@@ -121,12 +121,11 @@ class Crawler(object):
             # this part should not be used when checking the identical document.
             cities_backup = area.pop('cities')
 
-            if self.db.find_one(collection='DXYArea', data=area):
+            if self.db.find_one(collection='Area', data=area):
                 continue
 
             # If this document is not in current database, insert this attribute back to the document.
             area['cities'] = cities_backup
-
             area['countryName'] = '中国'
             area['countryEnglishName'] = 'China'
             area['continentName'] = '亚洲'
@@ -145,7 +144,7 @@ class Crawler(object):
 
             area['updateTime'] = self.crawl_timestamp
 
-            self.db.insert(collection='DXYArea', data=area)
+            self.db.insert(collection='Area', data=area)
 
     def abroad_parser(self, abroad_information):
         countries = json.loads(abroad_information.group(0))
@@ -174,39 +173,36 @@ class Crawler(object):
             # Rename the key continents to continentName
             country['continentName'] = country.pop('continents')
 
-            if self.db.find_one(collection='DXYArea', data=country):
+            if self.db.find_one(collection='Area', data=country):
                 continue
-
             country['countryName'] = country.get('provinceName')
             country['provinceShortName'] = country.get('provinceName')
             country['continentEnglishName'] = continent_name_map.get(country['continentName'])
             country['countryEnglishName'] = country_name_map.get(country['countryName'])
             country['provinceEnglishName'] = country_name_map.get(country['countryName'])
-
             country['updateTime'] = self.crawl_timestamp
-
-            self.db.insert(collection='DXYArea', data=country)
+            self.db.insert(collection='Area', data=country)
 
     def news_parser(self, news):
         news = json.loads(news.group(0))
         for _news in news:
             _news.pop('pubDateStr')
-            if self.db.find_one(collection='DXYNews', data=_news):
+            if self.db.find_one(collection='News', data=_news):
                 continue
             _news['crawlTime'] = self.crawl_timestamp
 
-            self.db.insert(collection='DXYNews', data=_news)
+            self.db.insert(collection='News', data=_news)
 
     def rumor_parser(self, rumors):
         rumors = json.loads(rumors.group(0))
         for rumor in rumors:
             rumor.pop('score')
             rumor['body'] = rumor['body'].replace(' ', '')
-            if self.db.find_one(collection='DXYRumors', data=rumor):
+            if self.db.find_one(collection='Rumors', data=rumor):
                 continue
             rumor['crawlTime'] = self.crawl_timestamp
 
-            self.db.insert(collection='DXYRumors', data=rumor)
+            self.db.insert(collection='Rumors', data=rumor)
 
 
 if __name__ == '__main__':

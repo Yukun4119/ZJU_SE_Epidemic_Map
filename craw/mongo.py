@@ -5,13 +5,13 @@ from pymongo import MongoClient
 # 在这之前需要先下载安装好mongo
 uri = 'mongodb://localhost:27017/'
 client = MongoClient(uri)
+#建立名为COVID-19_ZJU_SE_PROJECT的数据库
 db = client['COVID-19_ZJU_SE_PROJECT']  
 
-class DB:
+class mongo_db:
     def __init__(self):
         self.db = db
-
-        # 只是涉及插入和查找
+    # 只是涉及插入和查找
     def insert(self, collection, data):
         self.db[collection].insert(data)
 
