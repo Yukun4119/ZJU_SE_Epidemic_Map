@@ -29,7 +29,6 @@ class Crawler(object):
     #运行主体
     def crawler(self):
         while True:
-            # 下面这个agent还不是很理解，大概是和会话有关
             # 从user_agent.py文件中随机选择代理
             # https://www.itranslater.com/qa/details/2131691707614888960
             self.session.headers.update(
@@ -153,14 +152,7 @@ class Crawler(object):
                 country.pop('id')
                 country.pop('tags')
                 country.pop('sort')
-                # Ding Xiang Yuan have a large number of duplicates,
-                # values are all the same, but the modifyTime are different.
-                # I suppose the modifyTime is modification time for all documents, other than for only this document.
-                # So this field will be popped out.
                 country.pop('modifyTime')
-                # createTime is also different even if the values are same.
-                # Originally, the createTime represent the first diagnosis of the virus in this area,
-                # but it seems different for abroad information.
                 country.pop('createTime')
                 country['comment'] = country['comment'].replace(' ', '')
             except KeyError:
@@ -168,9 +160,7 @@ class Crawler(object):
             country.pop('countryType')
             country.pop('provinceId')
             country.pop('cityName')
-            # The original provinceShortName are blank string
             country.pop('provinceShortName')
-            # Rename the key continents to continentName
             country['continentName'] = country.pop('continents')
 
             if self.db.find_one(collection='Area', data=country):

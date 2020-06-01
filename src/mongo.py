@@ -1,4 +1,4 @@
-# 这里可能会报错，其实是是误报
+# 这里在pycharm里面可能会报错，其实是是误报
 from pymongo import MongoClient
 
 # 这里是我本地的mongo数据库

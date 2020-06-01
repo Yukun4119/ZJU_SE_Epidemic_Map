@@ -1,4 +1,5 @@
 #国内外地区信息
+# 以json的格式
 
 country_type_map = {
     1: '中国'
