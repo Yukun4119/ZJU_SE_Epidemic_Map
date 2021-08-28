@@ -70,45 +70,6 @@ mongoexport -d COVID-19_ZJU_SE_PROJECT -c Overall -o ~/Desktop/test_Overall.csv
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 下面是写给我自己的
-
-rumor的json格式需要手动修改：
-
-用result [ ] 括起来，每行用 ， 隔开
-
-
-
-# 下面的是之前制作代码的一些记录，文档的同学可以不用看
-
-
-
 ### 爬虫设计+数据集：
 
 * 主要参考craw_NCP/文件里面的内容，注意chromedriver的位置
